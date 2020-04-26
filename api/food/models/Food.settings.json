@@ -1,0 +1,34 @@
+{
+  "connection": "default",
+  "collectionName": "foods",
+  "info": {
+    "name": "food",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "text"
+    },
+    "Type": {
+      "enum": [
+        "",
+        "Healthy",
+        "Unhealthy"
+      ],
+      "type": "enumeration"
+    },
+    "Image": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload"
+    }
+  }
+}

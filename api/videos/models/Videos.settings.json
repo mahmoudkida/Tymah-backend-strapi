@@ -1,0 +1,30 @@
+{
+  "connection": "default",
+  "collectionName": "videos",
+  "info": {
+    "name": "videos",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "url": {
+      "type": "string"
+    },
+    "Title": {
+      "type": "string"
+    },
+    "thumbnail": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload"
+    },
+    "videocategory": {
+      "model": "videocategories",
+      "via": "videos"
+    }
+  }
+}

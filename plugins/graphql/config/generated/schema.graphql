@@ -1,3 +1,53 @@
+type Ad {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  Title: String
+  picture: UploadFile
+}
+
+input AdInput {
+  Title: String
+  picture: ID
+}
+
+type Character {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  CharecterName: String
+  Avatar: UploadFile
+}
+
+input CharacterInput {
+  CharecterName: String
+  Avatar: ID
+}
+
+input createAdInput {
+  data: AdInput
+}
+
+type createAdPayload {
+  ad: Ad
+}
+
+input createCharacterInput {
+  data: CharacterInput
+}
+
+type createCharacterPayload {
+  character: Character
+}
+
+input createFoodInput {
+  data: FoodInput
+}
+
+type createFoodPayload {
+  food: Food
+}
+
 input createRoleInput {
   data: RoleInput
 }
@@ -14,10 +64,50 @@ type createUserPayload {
   user: UsersPermissionsUser
 }
 
+input createVideocategoriesInput {
+  data: VideocategoriesInput
+}
+
+type createVideocategoriesPayload {
+  videocategory: Videocategories
+}
+
+input createVideosInput {
+  data: VideosInput
+}
+
+type createVideosPayload {
+  video: Videos
+}
+
 """
 The `DateTime` scalar represents a date and time following the ISO 8601 standard
 """
 scalar DateTime
+
+input deleteAdInput {
+  where: InputID
+}
+
+type deleteAdPayload {
+  ad: Ad
+}
+
+input deleteCharacterInput {
+  where: InputID
+}
+
+type deleteCharacterPayload {
+  character: Character
+}
+
+input deleteFoodInput {
+  where: InputID
+}
+
+type deleteFoodPayload {
+  food: Food
+}
 
 input deleteRoleInput {
   where: InputID
@@ -35,6 +125,32 @@ type deleteUserPayload {
   user: UsersPermissionsUser
 }
 
+input deleteVideocategoriesInput {
+  where: InputID
+}
+
+type deleteVideocategoriesPayload {
+  videocategory: Videocategories
+}
+
+input deleteVideosInput {
+  where: InputID
+}
+
+type deleteVideosPayload {
+  video: Videos
+}
+
+input editAdInput {
+  Title: String
+  picture: ID
+}
+
+input editCharacterInput {
+  CharecterName: String
+  Avatar: ID
+}
+
 input editFileInput {
   name: String
   hash: String
@@ -46,6 +162,13 @@ input editFileInput {
   provider: String
   public_id: String
   related: [ID]
+}
+
+input editFoodInput {
+  Name: String
+  Description: String
+  Type: ENUM_FOOD_TYPE
+  Image: ID
 }
 
 input editRoleInput {
@@ -67,6 +190,24 @@ input editUserInput {
   role: ID
 }
 
+input editVideocategoriesInput {
+  name: String
+  background: ID
+  videos: [ID]
+}
+
+input editVideosInput {
+  url: String
+  Title: String
+  thumbnail: ID
+  videocategory: ID
+}
+
+enum ENUM_FOOD_TYPE {
+  Healthy
+  Unhealthy
+}
+
 input FileInput {
   name: String!
   hash: String!
@@ -78,6 +219,23 @@ input FileInput {
   provider: String!
   public_id: String
   related: [ID]
+}
+
+type Food {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  Name: String
+  Description: String
+  Type: ENUM_FOOD_TYPE
+  Image: UploadFile
+}
+
+input FoodInput {
+  Name: String
+  Description: String
+  Type: ENUM_FOOD_TYPE
+  Image: ID
 }
 
 input InputID {
@@ -92,9 +250,25 @@ scalar JSON
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Ad | createAdPayload | updateAdPayload | deleteAdPayload | Character | createCharacterPayload | updateCharacterPayload | deleteCharacterPayload | Food | createFoodPayload | updateFoodPayload | deleteFoodPayload | Videocategories | createVideocategoriesPayload | updateVideocategoriesPayload | deleteVideocategoriesPayload | Videos | createVideosPayload | updateVideosPayload | deleteVideosPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
+  createAd(input: createAdInput): createAdPayload
+  updateAd(input: updateAdInput): updateAdPayload
+  deleteAd(input: deleteAdInput): deleteAdPayload
+  createCharacter(input: createCharacterInput): createCharacterPayload
+  updateCharacter(input: updateCharacterInput): updateCharacterPayload
+  deleteCharacter(input: deleteCharacterInput): deleteCharacterPayload
+  createFood(input: createFoodInput): createFoodPayload
+  updateFood(input: updateFoodInput): updateFoodPayload
+  deleteFood(input: deleteFoodInput): deleteFoodPayload
+  createVideocategories(input: createVideocategoriesInput): createVideocategoriesPayload
+  updateVideocategories(input: updateVideocategoriesInput): updateVideocategoriesPayload
+  deleteVideocategories(input: deleteVideocategoriesInput): deleteVideocategoriesPayload
+  createVideos(input: createVideosInput): createVideosPayload
+  updateVideos(input: updateVideosInput): updateVideosPayload
+  deleteVideos(input: deleteVideosInput): deleteVideosPayload
+
   """Create a new role"""
   createRole(input: createRoleInput): createRolePayload
 
@@ -116,6 +290,16 @@ type Mutation {
 }
 
 type Query {
+  ad(id: ID!): Ad
+  ads(sort: String, limit: Int, start: Int, where: JSON): [Ad]
+  character(id: ID!): Character
+  characters(sort: String, limit: Int, start: Int, where: JSON): [Character]
+  food(id: ID!): Food
+  foods(sort: String, limit: Int, start: Int, where: JSON): [Food]
+  videocategory(id: ID!): Videocategories
+  videocategories(sort: String, limit: Int, start: Int, where: JSON): [Videocategories]
+  video(id: ID!): Videos
+  videos(sort: String, limit: Int, start: Int, where: JSON): [Videos]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
   role(id: ID!): UsersPermissionsRole
 
@@ -136,6 +320,33 @@ input RoleInput {
   users: [ID]
 }
 
+input updateAdInput {
+  where: InputID
+  data: editAdInput
+}
+
+type updateAdPayload {
+  ad: Ad
+}
+
+input updateCharacterInput {
+  where: InputID
+  data: editCharacterInput
+}
+
+type updateCharacterPayload {
+  character: Character
+}
+
+input updateFoodInput {
+  where: InputID
+  data: editFoodInput
+}
+
+type updateFoodPayload {
+  food: Food
+}
+
 input updateRoleInput {
   where: InputID
   data: editRoleInput
@@ -152,6 +363,24 @@ input updateUserInput {
 
 type updateUserPayload {
   user: UsersPermissionsUser
+}
+
+input updateVideocategoriesInput {
+  where: InputID
+  data: editVideocategoriesInput
+}
+
+type updateVideocategoriesPayload {
+  videocategory: Videocategories
+}
+
+input updateVideosInput {
+  where: InputID
+  data: editVideosInput
+}
+
+type updateVideosPayload {
+  video: Videos
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -227,4 +456,36 @@ type UsersPermissionsUser {
   confirmed: Boolean
   blocked: Boolean
   role: UsersPermissionsRole
+}
+
+type Videocategories {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  background: UploadFile
+  videos(sort: String, limit: Int, start: Int, where: JSON): [Videos]
+}
+
+input VideocategoriesInput {
+  name: String
+  background: ID
+  videos: [ID]
+}
+
+type Videos {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  url: String
+  Title: String
+  thumbnail: UploadFile
+  videocategory: Videocategories
+}
+
+input VideosInput {
+  url: String
+  Title: String
+  thumbnail: ID
+  videocategory: ID
 }

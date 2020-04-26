@@ -1,0 +1,24 @@
+{
+  "connection": "default",
+  "collectionName": "characters",
+  "info": {
+    "name": "character",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "CharecterName": {
+      "type": "string"
+    },
+    "Avatar": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": true
+    }
+  }
+}
